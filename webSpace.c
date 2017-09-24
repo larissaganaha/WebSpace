@@ -35,11 +35,6 @@ int main(int argc, char *argv[]) {
     		fprintf(stderr, "404 - Not Found\n");
         return 1;
     }
-  
-	//verifica se arquivo possui permissao de leitura
-	if( (fileStat.st_mode & S_IRUSR) == 0){
-		fprintf(stderr, "403 - Forbidden\n");
-	}
 		
   	//verifica se o recurso eh um diretorio
     if( S_ISDIR(fileStat.st_mode) ) {
@@ -128,8 +123,7 @@ int escreveArquivo(char address[ADDRESS_SIZE], struct stat fileStat){
 	char  buf[CHUNK];
 	//verifica permissao de leitura
 	if( !(fileStat.st_mode & S_IRUSR) ){
-		fprintf(stderr, "\n%s Nao tem permissao de leitura\n", address);
-		return 0;
+        fprintf(stderr, "403 - Forbidden\n");		return 0;
 	}
 
 	//tenta abrir o arquivo
